@@ -56,7 +56,7 @@ def setup():
     
 print "starting"
 setup()
-while Trure: 
+while True: 
         for speed in range(10, 101, 10):
            print "forward with speed", speed
             forward(speed)
