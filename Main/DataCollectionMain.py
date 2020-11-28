@@ -8,7 +8,7 @@ speed = int(input("Enter the desired duty cycle 0 - 100"))
 sensor_time = int(input("Enter the desired sensor read time in seconds"))
 # Calibrate BNO-055 sensor
 sensor_calibrate()
-# First set speed of motor to 50%
+# Initialize pwm and set speed of motor to the user speed
 pwm = pwm_init()
 forward(pwm, speed)
 # Record readings from sensor
