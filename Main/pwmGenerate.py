@@ -1,71 +1,57 @@
-'''
-Control the Brightness of LED using PWM on Raspberry Pi
-http://www.electronicwings.com
-'''
-
-'''import RPi.GPIO as GPIO
-from time import sleep
-
-ledpin = 12				# PWM pin connected to LED
-GPIO.setwarnings(False)			#disable warnings
-GPIO.setmode(GPIO.BOARD)		#set pin numbering system
-GPIO.setup(ledpin,GPIO.OUT)
-pi_pwm = GPIO.PWM(ledpin,1000)		#create PWM instance with frequency
-pi_pwm.start(0)				#start PWM of required Duty Cycle 
-while True:
-    for duty in range(0,101,1):
-        pi_pwm.ChangeDutyCycle(duty) #provide duty cycle in the range 0-100
-        sleep(0.01)
-    sleep(0.5)
-    
-    for duty in range(100,-1,-1):
-        pi_pwm.ChangeDutyCycle(duty)
-        sleep(0.01)
-    sleep(0.5)'''
-    
-    # Motor speed & direction 
-
 import RPi.GPIO as GPIO
 import time
 
-P_MOTA1 = 18
-P_MOTA2 = 22
-fPWM = 50  # Hz (not higher with software PWM)
+pwm_pin = 18
+direction_pin1 = 32
+direction_pin2 = 36
+fPWM = 1000  # Hz
 
-def forward(speed):
-    pwm1.ChangeDutyCycle(speed)
-    pwm2.ChangeDutyCycle(0)
 
-def backward(speed):        
-    pwm1.ChangeDutyCycle(0)
-    pwm2.ChangeDutyCycle(speed)
-    
-def stop():
-    pwm1.ChangeDutyCycle(0)
-    pwm2.ChangeDutyCycle(0)
+def pwm_init():
+    GPIO.setmode(GPIO.BOARD)  # Pinout set to correspond to the physical location of the pins on the board.
 
-def setup():
-    global pwm1, pwm2
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(P_MOTA1, GPIO.OUT)
-    pwm1 = GPIO.PWM(P_MOTA1, fPWM)
-    pwm1.start(0)
-    GPIO.setup(P_MOTA2, GPIO.OUT)
-    pwm2 = GPIO.PWM(P_MOTA2, fPWM)
-    pwm2.start(0)
-    
-print "starting"
-setup()
-while True: 
-        for speed in range(10, 101, 10):
-           print "forward with speed", speed
-            forward(speed)
-            time.sleep(2)
-        for speed in range(10, 101, 10):
-            print "backward with speed", speed
-            backward(speed)
-            time.sleep(2)
-print "stopping"
-stop()
-GPIO.cleanup()    
-print "done"
+    # Setup all pins
+    GPIO.setup(pwm_pin, GPIO.OUT)
+    GPIO.setup(direction_pin1, GPIO.OUT)
+    GPIO.setup(direction_pin2, GPIO.OUT)
+
+    # Initialize default starting values
+    GPIO.output(direction_pin1, GPIO.LOW)
+    GPIO.output(direction_pin2, GPIO.LOW)
+    pwm = GPIO.PWM(pwm_pin, fPWM)
+    pwm.start(0)
+
+    return pwm
+
+
+def forward(pwm, speed):
+    GPIO.output(direction_pin1, GPIO.HIGH)
+    GPIO.output(direction_pin2, GPIO.LOW)
+    pwm.ChangeDutyCycle(speed)
+
+
+def backward(pwm, speed):
+    GPIO.output(direction_pin1, GPIO.LOW)
+    GPIO.output(direction_pin1, GPIO.HIGH)
+    pwm.ChangeDutyCycle(speed)
+
+
+def stop(pwm):
+    GPIO.output(direction_pin1, GPIO.LOW)
+    GPIO.output(direction_pin1, GPIO.LOW)
+    pwm.stop()
+    GPIO.cleanup()
+
+
+def pwm_test(pwm):
+
+    for speed in range(10, 101, 10):
+        print("forward with speed ", speed)
+        forward(pwm, speed)
+        time.sleep(2)
+    for speed in range(10, 101, 10):
+        print("backward with speed ", speed)
+        backward(pwm, speed)
+        time.sleep(2)
+    print("Stopping motor")
+    stop(pwm)

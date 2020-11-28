@@ -1,11 +1,17 @@
-from pwmGenerate import forward, stop
-from SensorRecord import sensor_record
+#!/usr/bin/env python3
+
+from pwmGenerate import forward, stop, pwm_init
+from SensorRecord import sensor_record, sensor_calibrate
 
 # Get user speed and test time
 speed = int(input("Enter the desired duty cycle 0 - 100"))
 sensor_time = int(input("Enter the desired sensor read time in seconds"))
-# First set the speed of the motor
-forward(speed)
+# Calibrate BNO-055 sensor
+sensor_calibrate()
+# First set speed of motor to 50%
+pwm = pwm_init()
+forward(pwm, speed)
 # Record readings from sensor
 sensor_record(sensor_time)
-stop()
+# Sensor readings complete so stop the motor.
+stop(pwm)
