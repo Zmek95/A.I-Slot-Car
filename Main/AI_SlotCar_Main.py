@@ -39,6 +39,7 @@ print(accuracy_score(y_pred, y_test))
 
 # ~~~~~~~~~~~~~~ Machine learning algo here... adapted from k-means template ~~~~~~~~~~~~~~~~
 
+# TODO: change file to use functions for ML_algo and control loop
 
 run_time = int(input("Enter the desired runtime in seconds for the slot car"))
 top_speed = int(input("Enter the top speed for the slot car 1 - 100"))
@@ -59,6 +60,10 @@ start_time = time.time()
 while start_time + run_time > time.time():
     sensor_readings = sensor_read()
     gyro_readings = sensor_readings['Gyro']
+    # TODO: Use other readings from sensor to determine whether a failure has occurred
+    # check whether readings are within expected range
+    # if not increment turn_failures[current_turn] and break
+
     # ML algo uses sensor reading to determine whether the car is in a turn.
     turning = classifier.predict(sc.transform([[gyro_readings[0]]]))
     if turning:
