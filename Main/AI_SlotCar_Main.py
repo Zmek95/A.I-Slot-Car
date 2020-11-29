@@ -46,8 +46,8 @@ turns = int(input("Total number of turns in the track"))
 
 turn_failures = [0] * turns  # Each element represents a turn and the number represents the number of failures.
 speed_decrement = 5          # PWM duty cycle decrement
-current_turn = -1   # Counter for keeping track of which turn the car is in.
-in_turn = 0         # Flag for determining whether the car is in a turn.
+current_turn = -1            # Counter for keeping track of which turn the car is in.
+in_turn = 0                  # Flag for determining whether the car is in a turn.
 
 
 # Calibrate the BNO-055 sensor
@@ -63,7 +63,7 @@ while start_time + run_time > time.time():
     turning = classifier.predict(sc.transform([[gyro_readings[0]]]))
     if turning:
         if in_turn == 0:
-            current_turn += 1  # Use modulus here
+            current_turn = (current_turn + 1) % turns
             in_turn = 1
             if turn_failures[current_turn] != 0:
                 forward(pwm, (top_speed - speed_decrement * turn_failures[current_turn]))
