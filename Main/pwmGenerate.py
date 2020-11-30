@@ -1,14 +1,15 @@
 import RPi.GPIO as GPIO
 import time
 
-pwm_pin = 18
-direction_pin1 = 32
-direction_pin2 = 36
+pwm_pin = 24 #was 18
+direction_pin1 = 12
+direction_pin2 = 16
 fPWM = 1000  # Hz
 
 
 def pwm_init():
-    GPIO.setmode(GPIO.BOARD)  # Pinout set to correspond to the physical location of the pins on the board.
+ #   print(GPIO.getmode())
+#    GPIO.setmode(GPIO.BCM)  # Pinout set to correspond to the physical location of the pins on the board.
 
     # Setup all pins
     GPIO.setup(pwm_pin, GPIO.OUT)
@@ -55,3 +56,7 @@ def pwm_test(pwm):
         time.sleep(2)
     print("Stopping motor")
     stop(pwm)
+
+if __name__ == "__main__":
+    pwm = pwm_init()
+    pwm_test(pwm)
