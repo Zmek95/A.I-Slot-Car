@@ -58,5 +58,6 @@ def pwm_test(pwm):
     stop(pwm)
 
 if __name__ == "__main__":
+    GPIO.setmode(GPIO.BCM)
     pwm = pwm_init()
     pwm_test(pwm)
