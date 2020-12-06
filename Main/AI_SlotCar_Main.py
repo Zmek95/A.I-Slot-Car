@@ -56,16 +56,18 @@ sensor_calibrate()
 # Start the slot car at the desired speed
 pwm = pwm_init()
 forward(pwm, top_speed)
+print("Starting...")
 start_time = time.time()
 while start_time + run_time > time.time():
     sensor_readings = sensor_read()
-    gyro_readings = sensor_readings['Gyro']
+    heading = sensor_readings["GyroH"]
+    roll = sensor_readings["GyroR"]
     # TODO: Use other readings from sensor to determine whether a failure has occurred
     # check whether readings are within expected range
     # if not increment turn_failures[current_turn] and break
 
     # ML algo uses sensor reading to determine whether the car is in a turn.
-    turning = classifier.predict(sc.transform([[gyro_readings[0]]]))
+    turning = classifier.predict(sc.transform([[heading, roll]]))
     if turning:
         if in_turn == 0:
             current_turn = (current_turn + 1) % turns
