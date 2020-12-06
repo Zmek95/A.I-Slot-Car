@@ -10,8 +10,8 @@ import pandas as pd
 # DATA PREPROCESSING
 
 # Importing the dataset
-dataset = pd.read_csv('motionsensor.csv')
-x = dataset.iloc[:, :-1].values  # Choose correct columns for the features here!
+dataset = pd.read_csv('motionsensorwithturn.csv')
+x = dataset.iloc[:, 1].values  # Choose correct columns for the features here!
 y = dataset.iloc[:, -1].values
 
 # Split dataset to training and test sets
