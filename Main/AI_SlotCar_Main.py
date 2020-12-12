@@ -63,7 +63,6 @@ def car_control(ml_classifier, standard_scalar, run_time, top_speed, turns, turn
         sensor_readings = sensor_read()
         heading = sensor_readings["GyroH"]
         roll = sensor_readings["GyroR"]
-        
         # Failure detection
         failure_detect = GPIO.input(failure_detect_pin)
         if failure_detect == GPIO.LOW:
