@@ -5,7 +5,6 @@ import time
 pwm_pin = 24
 direction_pin1 = 12
 direction_pin2 = 16
-failure_detect_pin = 6
 fPWM = 4000
 
 
