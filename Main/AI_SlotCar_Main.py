@@ -63,9 +63,8 @@ def car_control(ml_classifier, standard_scalar, run_time, top_speed, turns, turn
         sensor_readings = sensor_read()
         heading = sensor_readings["GyroH"]
         roll = sensor_readings["GyroR"]
-        # TODO: Use other readings from sensor to determine whether a failure has occurred
-        # check whether readings are within expected range
-        # if not increment turn_failures[current_turn] and break
+        
+        # Failure detection
         failure_detect = GPIO.input(failure_detect_pin)
         if failure_detect == GPIO.LOW:
             turn_failures[current_turn] = turn_failures[current_turn] + 1
