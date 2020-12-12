@@ -1,20 +1,21 @@
 import RPi.GPIO as GPIO
 import time
 
-pwm_pin = 24 #was 18
+# BCM numbering
+pwm_pin = 24
 direction_pin1 = 12
 direction_pin2 = 16
-fPWM = 4000  # Hz
+failure_detect_pin = 6
+fPWM = 4000
 
 
 def pwm_init():
- #   print(GPIO.getmode())
-#    GPIO.setmode(GPIO.BCM)  # Pinout set to correspond to the physical location of the pins on the board.
 
     # Setup all pins
     GPIO.setup(pwm_pin, GPIO.OUT)
     GPIO.setup(direction_pin1, GPIO.OUT)
     GPIO.setup(direction_pin2, GPIO.OUT)
+    GPIO.setup()
 
     # Initialize default starting values
     GPIO.output(direction_pin1, GPIO.LOW)
