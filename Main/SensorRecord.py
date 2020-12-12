@@ -97,6 +97,5 @@ def sensor_record(sensor_time):
 def sensor_read():
     heading, roll, pitch = bno.read_euler()
     ax, ay, az = bno.read_linear_acceleration()
-    sys, gyro, accel, mag = bno.get_calibration_status
-    sensor_readings = {"Gyro": [heading, roll, pitch], "Accel": [ax, ay, az], "Cal": [sys, gyro, accel, mag]}
+    sensor_readings = {"GyroH": heading, "GyroR": roll, "GyroP": pitch, "AccelX": ax, "AccelY": ay, "AccelZ": az}
     return sensor_readings
