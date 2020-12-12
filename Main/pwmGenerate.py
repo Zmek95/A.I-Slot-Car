@@ -4,7 +4,7 @@ import time
 pwm_pin = 24 #was 18
 direction_pin1 = 12
 direction_pin2 = 16
-fPWM = 5000  # Hz
+fPWM = 4000  # Hz
 
 
 def pwm_init():

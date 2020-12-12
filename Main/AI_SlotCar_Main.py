@@ -4,14 +4,14 @@ import time
 
 # ~~~~~~~~~~~~~~ Machine learning algo here... adapted from k-means template ~~~~~~~~~~~~~~~~
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import pandas as pd
 
 # DATA PREPROCESSING
 
 # Importing the dataset
 dataset = pd.read_csv('motionsensorwithturn.csv')
-x = dataset.iloc[:, 1].values  # Choose correct columns for the features here!
+x = dataset.iloc[:, 1:3].values  # Choose correct columns for the features here!
 y = dataset.iloc[:, -1].values
 
 # Split dataset to training and test sets
@@ -43,13 +43,15 @@ print(accuracy_score(y_pred, y_test))
 
 run_time = int(input("Enter the desired runtime in seconds for the slot car"))
 top_speed = int(input("Enter the top speed for the slot car 1 - 100"))
-turns = int(input("Total number of turns in the track"))
+#turns = int(input("Total number of turns in the track"))
+turns = 4
 
 turn_failures = [0] * turns  # Each element represents a turn and the number represents the number of failures.
-speed_decrement = 5          # PWM duty cycle decrement
+speed_decrement = 10          # PWM duty cycle decrement
 current_turn = -1            # Counter for keeping track of which turn the car is in.
 in_turn = 0                  # Flag for determining whether the car is in a turn.
 
+turn_failures[0: turns+1] = [0,1,2,1] # For testing only
 
 # Calibrate the BNO-055 sensor
 sensor_calibrate()
@@ -74,6 +76,7 @@ while start_time + run_time > time.time():
             in_turn = 1
             if turn_failures[current_turn] != 0:
                 forward(pwm, (top_speed - speed_decrement * turn_failures[current_turn]))
+                print("Slowing down...")
     else:
         if in_turn == 1:
             in_turn = 0
